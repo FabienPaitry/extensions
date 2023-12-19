@@ -1,0 +1,39 @@
+name: open-vm-tools
+variant: scratch
+shell: /toolchain/bin/bash
+dependencies:
+  - stage: base
+steps:
+  - sources:
+      - url: https://github.com/vmware/open-vm-tools/archive/refs/tags/stable-12.3.5.tar.gz
+        destination: open-vm-tools.tar.gz
+        sha256: 2688a71c917228d0ac48e52cced2f5e3bd7031cf0bc7f6e7dce9a56f3badca09
+        sha512: e2a485d7bc5a26717c1e93ff174403fa8a93132d8bd6fc0f78b65ad200927398c88b6d97895da38b0c28bf3f0edfd501b9ec6ed8a84efd2f697d7b66e582a4ee
+    prepare:
+      - |
+        sed -i 's#$VERSION#{{ .VERSION }}#' /pkg/manifest.yaml
+      - |
+        tar -xzf open-vm-tools.tar.gz --strip-components=1
+        rm open-vm-tools.tar.gz
+      - |
+        mkdir -p /usr/bin
+    build:
+      - |
+        ./configure
+        make
+    install:
+      - |
+        make install DESTDIR=/rootfs
+        ldconfig
+
+        container_root=/rootfs/usr/local/lib/containers/open-vm-tools
+        mkdir -p "${container_root}"
+
+        mv /rootfs/vm-support"${container_root}/vm-support"
+finalize:
+  - from: /rootfs
+    to: /rootfs
+  - from: /pkg/manifest.yaml
+    to: /
+  - from: /pkg/qemu-guest-agent.yaml
+    to: /rootfs/usr/local/etc/containers/

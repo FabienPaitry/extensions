@@ -39,7 +39,7 @@ PLATFORM ?= linux/amd64,linux/arm64
 PROGRESS ?= auto
 PUSH ?= false
 CI_ARGS ?=
-COMMON_ARGS = --file=Pkgfile
+COMMON_ARGS = --file=Pkgfile --no-cache
 COMMON_ARGS += --provenance=false
 COMMON_ARGS += --progress=$(PROGRESS)
 COMMON_ARGS += --platform=$(PLATFORM)
@@ -80,6 +80,7 @@ TARGETS += usb-modem-drivers
 TARGETS += util-linux-tools
 TARGETS += xe-guest-utilities
 TARGETS += zfs
+TARGETS += open-vm-tools
 NONFREE_TARGETS = nonfree-kmod-nvidia
 
 # extra variables

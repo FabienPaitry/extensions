@@ -1,0 +1,7 @@
+name: open-vm-tools
+container:
+  entrypoint: ./open-vm-tools
+  args:
+    - --msg
+    - Talos Linux Extension Service
+restart: always

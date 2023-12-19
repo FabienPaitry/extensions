@@ -1,0 +1,10 @@
+version: v1alpha1
+metadata:
+  name: open-vm-tools
+  version: "$VERSION"
+  author: Yousign
+  description: |
+    This system extension provides an Open VMware Tools extension.
+  compatibility:
+    talos:
+      version: ">= v1.5.0"
